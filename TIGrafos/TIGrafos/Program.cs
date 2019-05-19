@@ -10,6 +10,7 @@ namespace TIGrafos
     {
         static void Main(string[] args)
         {
+            Console.Write("Teste");
         }
     }
 }
