@@ -8,8 +8,15 @@ namespace TIGrafos
 {
     class Grafo
     {
-        public List<Vertice> listaVertices;
+        private List<Vertice> listaVertices;
 
+        // Construtor
+        public Grafo(List<Vertice> _listaVertices)
+        {
+            ListaVertices = _listaVertices;
+        }
+
+        // Get/Set
         internal List<Vertice> ListaVertices
         {
             get => listaVertices;
