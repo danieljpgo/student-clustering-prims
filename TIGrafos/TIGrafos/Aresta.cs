@@ -9,20 +9,14 @@ namespace TIGrafos
     class Aresta
     {
         
-        private int direcao; /* 0 = Não posssui direção / 1 = esquerda para direita / -1 = direita para esquerda */
+        private int direcao = 0; /* 0 = Não posssui direção / 1 = esquerda para direita / -1 = direita para esquerda */
         private int peso;
         private int origem;
         private int destino;
 
         // Get/Set
 
-        public Aresta() {
-            //int _direcao, int _peso, int _origem, int _destino
-            //Direcao = _direcao;
-            //Peso = _peso;
-            //Origem = _origem;
-            //Destino = _destino;
-        }
+        public Aresta() { }
 
         public int Direcao
         {
