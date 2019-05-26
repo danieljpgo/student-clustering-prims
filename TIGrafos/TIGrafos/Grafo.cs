@@ -130,5 +130,35 @@ namespace TIGrafos
             Grafo arvoreGeradoraMin = new Grafo(verticesArvoreGenMin);
             return arvoreGeradoraMin;
         }
+
+        public static Grafo LeitorArquivoAlunos(Grafo _arvoreGeradoraMin, string urlArquivo)
+        {
+            StreamReader arquivo = new StreamReader(urlArquivo);
+            // Ler todo o arquivo e salvar em uma string
+            string lista = arquivo.ReadToEnd();
+            // Substituir os \r e separar cada linha da lista com \n
+            string[] vetorAlunos = lista.Replace('\r', ' ').Trim().Split('\n');
+
+            List<Aluno> listaAlunos = new List<Aluno>();
+
+            // Loop para preencher a Lista de Alunos usando o Vetor de Alunos
+            foreach(string alunoInfo in vetorAlunos)
+            {
+                string[] dadosAluno = alunoInfo.Trim().Split(' ');
+                Aluno aluno = new Aluno();
+                aluno.CodigoAluno = int.Parse(dadosAluno[0]);
+                aluno.AreaPesquisa = int.Parse(dadosAluno[1]);
+                listaAlunos.Add(aluno);
+            }
+
+            // Loop para encontrar os Alunos de cada AreaPesquisa e inserir no Vetor respectivo
+            _arvoreGeradoraMin.ListaVertices.ForEach((vertice) =>
+            {
+                vertice.ListaAlunos = listaAlunos.FindAll((aluno) => aluno.AreaPesquisa == vertice.Identificador);
+            });
+
+            return _arvoreGeradoraMin;
+
+        }
     }
 }

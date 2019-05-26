@@ -19,12 +19,13 @@ namespace TIGrafos
             Console.ReadKey();
             Grafo arvoreGeradoraMinima = Grafo.Prim(grafoCompleto);
 
+            Console.Write("Arvore Geradora Minima gerado com sucesso, agora digite alguma tecla para preencher a Arvore com os Alunos:\n");
+            Console.ReadKey();
+            Grafo arvore = Grafo.LeitorArquivoAlunos(arvoreGeradoraMinima, "Dados_Aluno_Pesquisa.txt");
 
-            //Aluno aluno = new Aluno();
-            //aluno.AreaPesquisa = 1;
-            //aluno.AreaPesquisa = 5;
 
-            //grafoCompleto.ListaVertices[0].ListaAlunos.Add(aluno);
+
+
 
             Console.ReadKey();
         }
