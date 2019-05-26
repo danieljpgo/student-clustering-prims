@@ -21,11 +21,23 @@ namespace TIGrafos
 
             Console.Write("Arvore Geradora Minima gerado com sucesso, agora digite alguma tecla para preencher a Arvore com os Alunos:\n");
             Console.ReadKey();
-            Grafo arvore = Grafo.LeitorArquivoAlunos(arvoreGeradoraMinima, "Dados_Aluno_Pesquisa.txt");
+            Grafo arvoreAlunos = Grafo.LeitorArquivoAlunos(arvoreGeradoraMinima, "Dados_Aluno_Pesquisa.txt");
 
-
-
-
+            arvoreAlunos.ListaVertices.ForEach((vertice) =>
+            {
+                Console.Write("( {0} ) = Informações:\n", vertice.Identificador);
+                Console.Write(" | |    Codigo Aluno    :");
+                vertice.ListaAlunos.ForEach((aluno) =>
+                {
+                    Console.Write("\t{0}", aluno.CodigoAluno);
+                });
+                Console.Write("\n | |    Area de Pesquisa:");
+                vertice.ListaAlunos.ForEach((aluno) =>
+                {
+                    Console.Write("\t{0}", aluno.AreaPesquisa);
+                });
+                Console.WriteLine("\n  |   ");
+            });
 
             Console.ReadKey();
         }

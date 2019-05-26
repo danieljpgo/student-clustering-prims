@@ -30,7 +30,7 @@ namespace TIGrafos
             // Ler todo o arquivo e salvar em uma string
             string matriz = arquivo.ReadToEnd();
             // Substituir os \r e separar cada linha da matriz com \n
-            string[] linhasMatriz = matriz.Replace('\r', ' ').Split('\n');
+            string[] linhasMatriz = matriz.Replace('\r', ' ').Trim().Split('\n');
             // Lista de Vertices do Grafo
             List<Vertice> listaVertices = new List<Vertice>();
 
@@ -151,7 +151,7 @@ namespace TIGrafos
                 listaAlunos.Add(aluno);
             }
 
-            // Loop para encontrar os Alunos de cada AreaPesquisa e inserir no Vetor respectivo
+            // Loop para encontrar os Alunos de cada AreaPesquisa e inserir no Vertice respectivo
             _arvoreGeradoraMin.ListaVertices.ForEach((vertice) =>
             {
                 vertice.ListaAlunos = listaAlunos.FindAll((aluno) => aluno.AreaPesquisa == vertice.Identificador);
