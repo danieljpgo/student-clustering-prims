@@ -11,7 +11,21 @@ namespace TIGrafos
     {
         static void Main(string[] args)
         {
-            Grafo grafoDissimilaridade = Grafo.leitorArquivoDissimilaridade("Matriz_Dissimilaridade.txt");
+            Console.Write("Para iniciar a geração do Grafo utilizando a Matriz Dissimilaridade, digite alguma tecla:\n");
+            Console.ReadKey();
+            Grafo grafoCompleto = Grafo.LeitorArquivoDissimilaridade("Matriz_Dissimilaridade.txt");
+
+            Console.Write("Grafo gerado com sucesso, agora digite alguma tecla para gerar a Arvore Geradora Minima:\n");
+            Console.ReadKey();
+            Grafo arvoreGeradoraMinima = Grafo.Prim(grafoCompleto);
+
+
+            //Aluno aluno = new Aluno();
+            //aluno.AreaPesquisa = 1;
+            //aluno.AreaPesquisa = 5;
+
+            //grafoCompleto.ListaVertices[0].ListaAlunos.Add(aluno);
+
             Console.ReadKey();
         }
     }

@@ -10,11 +10,13 @@ namespace TIGrafos
     {
         private int identificador;
         private List<Aresta> listaArestas;
+        private List<Aluno> listaAlunos;
 
         // Construtor
-        public Vertice(int _identificador, List<Aresta> _listaArestas) {
+        public Vertice(int _identificador, List<Aresta> _listaArestas, List<Aluno> _listaAlunos) {
             Identificador = _identificador;
             ListaArestas = _listaArestas;
+            ListaAlunos = _listaAlunos;
         }
 
         // Get/Set
@@ -28,6 +30,12 @@ namespace TIGrafos
         {
             get => listaArestas;
             set => listaArestas = value;
+        }
+
+        public List<Aluno> ListaAlunos
+        {
+            get => listaAlunos;
+            set => listaAlunos = value;
         }
     }
 }
