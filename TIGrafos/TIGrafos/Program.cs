@@ -22,24 +22,47 @@ namespace TIGrafos
             Console.Write("Arvore Geradora Minima gerado com sucesso, agora digite alguma tecla para preencher a Arvore com os Alunos:\n");
             Console.ReadKey();
             Grafo arvoreAlunos = Grafo.LeitorArquivoAlunos(arvoreGeradoraMinima, "Dados_Aluno_Pesquisa.txt");
-
             arvoreAlunos.ListaVertices.ForEach((vertice) =>
             {
                 Console.Write("( {0} ) = Informações:\n", vertice.Identificador);
-                Console.Write(" | |    Codigo Aluno    :");
-                vertice.ListaAlunos.ForEach((aluno) =>
+
+                if (vertice.ListaArestas.Count > 0)
                 {
-                    Console.Write("\t{0}", aluno.CodigoAluno);
-                });
-                Console.Write("\n | |    Area de Pesquisa:");
-                vertice.ListaAlunos.ForEach((aluno) =>
+                    Console.Write(" |  |    Codigo Aluno    :");
+                    vertice.ListaAlunos.ForEach((aluno) =>
+                    {
+                        Console.Write("\t{0}", aluno.CodigoAluno);
+                    });
+                    Console.Write("\n |{0}|    Area de Pesquisa:", vertice.ListaArestas[0].Peso);
+                    vertice.ListaAlunos.ForEach((aluno) =>
+                    {
+                        Console.Write("\t{0}", aluno.AreaPesquisa);
+                    });
+                    Console.WriteLine("\n  ||   ");
+                } else
                 {
-                    Console.Write("\t{0}", aluno.AreaPesquisa);
-                });
-                Console.WriteLine("\n  |   ");
+                    Console.Write("         Codigo Aluno    :");
+                    vertice.ListaAlunos.ForEach((aluno) =>
+                    {
+                        Console.Write("\t{0}", aluno.CodigoAluno);
+                    });
+                    Console.Write("\n         Area de Pesquisa:");
+                    vertice.ListaAlunos.ForEach((aluno) =>
+                    {
+                        Console.Write("\t{0}\n", aluno.AreaPesquisa);
+                    });
+                }
+              
             });
 
+            Console.Write("Qual será o numero de grupos?\n");
+            int value = int.Parse(Console.ReadLine());
+            Grafo geracaoCluster = Grafo.GeracaoCluster(value, arvoreGeradoraMinima);
             Console.ReadKey();
+
+
+
+
         }
     }
 }

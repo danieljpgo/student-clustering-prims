@@ -37,6 +37,7 @@ namespace TIGrafos
             // Linha da Matriz
             for (int i = 0; i < linhasMatriz.Length; i++)
             {
+                List<int> ListaAreaPequisa = new List<int>();
                 List<Aresta> listaArestas = new List<Aresta>();
                 List<Aluno> listaAlunos = new List<Aluno>();
                 // Remover os espaços iniciais e finais da String antes de dividir em pesos
@@ -75,8 +76,10 @@ namespace TIGrafos
                     }
                 }
 
+
+                ListaAreaPequisa.Add(i + 1);
                 // Adicionar toda as Arestas encontradas em um novo Vertice.
-                Vertice vertice = new Vertice((i + 1), listaArestas, listaAlunos);
+                Vertice vertice = new Vertice((i + 1), listaArestas, listaAlunos, ListaAreaPequisa);
                 listaVertices.Add(vertice);
             }
 
@@ -160,5 +163,113 @@ namespace TIGrafos
             return _arvoreGeradoraMin;
 
         }
+
+        public static Grafo GeracaoCluster(int numeroGrupos, Grafo _arvoreGeradoraMin)
+        {
+            // Verifica se o numero digitado é menor que o numero de vertice do grafo da arvore geradora minima
+            if (numeroGrupos < _arvoreGeradoraMin.ListaVertices.Count)
+            {
+                while (numeroGrupos < _arvoreGeradoraMin.ListaVertices.Count)
+                {
+                    // Encontrar a aresta com o menor peso
+                    Vertice verticeRemovivel = _arvoreGeradoraMin.ListaVertices.Aggregate((primeiroVertice, segundoVertice) =>
+                    {
+                        // Verifica se já percorreu toda a lista, para impedir que retorne em error
+                        if (segundoVertice.ListaArestas.Count > 0)
+                        {
+                            return primeiroVertice.ListaArestas[0].Peso < segundoVertice.ListaArestas[0].Peso ? primeiroVertice : segundoVertice;
+                        } else
+                        {
+                            return primeiroVertice;
+                        }
+                    });
+
+                    // Encontrar o index do Vertice que será removido
+                    int indexRemover = _arvoreGeradoraMin.ListaVertices.FindIndex((vertice) => vertice.Identificador == verticeRemovivel.ListaArestas[0].Origem);
+
+                    // Caso o Index seja mairo que 0, irei unir as informações no vertice anterior ao encontrado que será removido
+                    if (indexRemover > 0)
+                    {
+                        // Somar o Peso da Aresta anterior com o peso da Aresta que será removido
+                        _arvoreGeradoraMin.ListaVertices[indexRemover - 1].ListaArestas[0].Peso = _arvoreGeradoraMin.ListaVertices[indexRemover - 1].ListaArestas[0].Peso + verticeRemovivel.ListaArestas[0].Peso;
+                        // Juntar a Lista de Areas de Pesquisa
+                        _arvoreGeradoraMin.ListaVertices[indexRemover - 1].ListaAreaPequisa.Concat(_arvoreGeradoraMin.ListaVertices[indexRemover].ListaAreaPequisa);
+                        // Juntar a Lista de Alunos
+                        _arvoreGeradoraMin.ListaVertices[indexRemover - 1].ListaAlunos.Concat(_arvoreGeradoraMin.ListaVertices[indexRemover].ListaAlunos);
+                        // Apontar a aresta para o proximo Vertice, retirando o apontamento no Vertice que será removido
+                        _arvoreGeradoraMin.ListaVertices[indexRemover - 1].ListaArestas[0].Destino = verticeRemovivel.ListaArestas[0].Destino;
+
+                        // Remover o Vertice, apos juntar todas as informações
+                        _arvoreGeradoraMin.ListaVertices.Remove(verticeRemovivel);
+                    }
+                    // Caso o Index seja igual 0, irei unir as informações ao vertice de baixo ao que foi encontrado, que será removido
+                    else
+                    {
+                        // Somar o Peso da proximo Aresta com o peso da Aresta que será removido
+                        _arvoreGeradoraMin.ListaVertices[indexRemover + 1].ListaArestas[0].Peso = _arvoreGeradoraMin.ListaVertices[indexRemover + 1].ListaArestas[0].Peso + verticeRemovivel.ListaArestas[0].Peso;
+                        // Juntar a Lista de Areas de Pesquisa
+                        _arvoreGeradoraMin.ListaVertices[indexRemover + 1].ListaAreaPequisa.Concat(_arvoreGeradoraMin.ListaVertices[indexRemover].ListaAreaPequisa);
+                        // Juntar a Lista de Alunos
+                        _arvoreGeradoraMin.ListaVertices[indexRemover + 1].ListaAlunos.Concat(_arvoreGeradoraMin.ListaVertices[indexRemover].ListaAlunos);
+
+                        // Remover o Vertice, apos juntar todas as informações
+                        _arvoreGeradoraMin.ListaVertices.Remove(verticeRemovivel);
+                    }
+                    Console.Write("----------------------------------\n");
+                    _arvoreGeradoraMin.ListaVertices.ForEach((vertice) =>
+                    {
+                        Console.Write("( ");
+                        vertice.ListaAreaPequisa.ForEach((valor) =>
+                        {
+                            Console.Write("{0}-", valor);
+                        });
+                        Console.Write(" ) = Informações:\n");
+
+                        if (vertice.ListaArestas.Count > 0)
+                        {
+                            Console.Write(" |  |    Codigo Aluno    :");
+                            vertice.ListaAlunos.ForEach((aluno) =>
+                            {
+                                Console.Write("\t{0}", aluno.CodigoAluno);
+                            });
+                            Console.Write("\n |{0}|    Area de Pesquisa:", vertice.ListaArestas[0].Peso);
+                            vertice.ListaAlunos.ForEach((aluno) =>
+                            {
+                                Console.Write("\t{0}", aluno.AreaPesquisa);
+                            });
+                            Console.WriteLine("\n  ||   ");
+                        }
+                        else
+                        {
+                            Console.Write("         Codigo Aluno    :");
+                            vertice.ListaAlunos.ForEach((aluno) =>
+                            {
+                                Console.Write("\t{0}", aluno.CodigoAluno);
+                            });
+                            Console.Write("\n         Area de Pesquisa:");
+                            vertice.ListaAlunos.ForEach((aluno) =>
+                            {
+                                Console.Write("\t{0}\n", aluno.AreaPesquisa);
+                            });
+                        }
+
+                    });
+
+                    Console.Write("Digite algo para continuar");
+                    Console.ReadKey();
+                }
+                return _arvoreGeradoraMin;
+            } else
+            {
+                Console.WriteLine("O numero de grupos {0}, é maior ou igual que o número de áreas de pesquisa {1}.", numeroGrupos, _arvoreGeradoraMin.ListaVertices.Count);
+                return _arvoreGeradoraMin;
+            }
+        }
     }
 }
+
+
+
+// Console.WriteLine(primeiroVertice.ListaArestas.Count);
+// Console.WriteLine("---------");
+// Console.WriteLine(segundoVertice.ListaArestas.Count);
