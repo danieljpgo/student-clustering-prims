@@ -11,7 +11,7 @@ namespace TIGrafos
     {
         static void Main(string[] args)
         {
-            Console.Write("Para iniciar a geração do Grafo utilizando a Matriz Dissimilaridade, digite alguma tecla:\n");
+            Console.Write("Para iniciar a geração do Grafo utilizando a Matriz Dissimilaridade, digite algo:\n");
             Console.ReadKey();
             Grafo grafoCompleto = Grafo.LeitorArquivoDissimilaridade("Matriz_Dissimilaridade.txt");
 

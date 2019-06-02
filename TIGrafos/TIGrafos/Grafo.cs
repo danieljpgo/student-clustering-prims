@@ -167,7 +167,7 @@ namespace TIGrafos
         public static Grafo GeracaoCluster(int numeroGrupos, Grafo _arvoreGeradoraMin)
         {
             // Verifica se o numero digitado é menor que o numero de vertice do grafo da arvore geradora minima
-            if (numeroGrupos < _arvoreGeradoraMin.ListaVertices.Count)
+            if (numeroGrupos < _arvoreGeradoraMin.ListaVertices.Count && numeroGrupos != 0)
             {
                 while (numeroGrupos < _arvoreGeradoraMin.ListaVertices.Count)
                 {
@@ -205,8 +205,12 @@ namespace TIGrafos
                     // Caso o Index seja igual 0, irei unir as informações ao vertice de baixo ao que foi encontrado, que será removido
                     else
                     {
-                        // Somar o Peso da proximo Aresta com o peso da Aresta que será removido
-                        _arvoreGeradoraMin.ListaVertices[indexRemover + 1].ListaArestas[0].Peso = _arvoreGeradoraMin.ListaVertices[indexRemover + 1].ListaArestas[0].Peso + verticeRemovivel.ListaArestas[0].Peso;
+                        // Condição para que caso o numero de GRUPOS seja equivalentes a 1, o ultimo vertice não tente apontar para uma lista de arestas vazia
+                        if (_arvoreGeradoraMin.ListaVertices[indexRemover + 1].ListaArestas.Count != 0)
+                        {
+                            // Somar o Peso da proximo Aresta com o peso da Aresta que será removido
+                            _arvoreGeradoraMin.ListaVertices[indexRemover + 1].ListaArestas[0].Peso = _arvoreGeradoraMin.ListaVertices[indexRemover + 1].ListaArestas[0].Peso + verticeRemovivel.ListaArestas[0].Peso;
+                        }
                         // Juntar a Lista de Areas de Pesquisa
                         _arvoreGeradoraMin.ListaVertices[indexRemover + 1].ListaAreaPequisa.AddRange(_arvoreGeradoraMin.ListaVertices[indexRemover].ListaAreaPequisa);
                         // Juntar a Lista de Alunos
@@ -259,7 +263,7 @@ namespace TIGrafos
                 return _arvoreGeradoraMin;
             } else
             {
-                Console.WriteLine("O numero de grupos {0}, é maior ou igual que o número de áreas de pesquisa {1}.", numeroGrupos, _arvoreGeradoraMin.ListaVertices.Count);
+                Console.WriteLine("O numero de grupos {0}, é maior, igual ou equivale a 0, sendo que o número de áreas de pesquisa {1}.", numeroGrupos, _arvoreGeradoraMin.ListaVertices.Count);
                 return _arvoreGeradoraMin;
             }
         }
