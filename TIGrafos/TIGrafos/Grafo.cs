@@ -30,7 +30,7 @@ namespace TIGrafos
             // Ler todo o arquivo e salvar em uma string
             string matriz = arquivo.ReadToEnd();
             // Substituir os \r e separar cada linha da matriz com \n
-            string[] linhasMatriz = matriz.Replace('\r', ' ').Trim().Split('\n');
+            string[] linhasMatriz = matriz.Replace('\r', ' ').Split('\n');
             // Lista de Vertices do Grafo
             List<Vertice> listaVertices = new List<Vertice>();
 
