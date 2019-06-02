@@ -192,36 +192,35 @@ namespace TIGrafos
                     {
                         // Somar o Peso da Aresta anterior com o peso da Aresta que será removido
                         _arvoreGeradoraMin.ListaVertices[indexRemover - 1].ListaArestas[0].Peso = _arvoreGeradoraMin.ListaVertices[indexRemover - 1].ListaArestas[0].Peso + verticeRemovivel.ListaArestas[0].Peso;
-                        // Juntar a Lista de Areas de Pesquisa
-                        _arvoreGeradoraMin.ListaVertices[indexRemover - 1].ListaAreaPequisa.Concat(_arvoreGeradoraMin.ListaVertices[indexRemover].ListaAreaPequisa);
-                        // Juntar a Lista de Alunos
-                        _arvoreGeradoraMin.ListaVertices[indexRemover - 1].ListaAlunos.Concat(_arvoreGeradoraMin.ListaVertices[indexRemover].ListaAlunos);
                         // Apontar a aresta para o proximo Vertice, retirando o apontamento no Vertice que será removido
                         _arvoreGeradoraMin.ListaVertices[indexRemover - 1].ListaArestas[0].Destino = verticeRemovivel.ListaArestas[0].Destino;
-
+                        // Juntar a Lista de Areas de Pesquisa
+                        _arvoreGeradoraMin.ListaVertices[indexRemover + 1].ListaAreaPequisa.AddRange(_arvoreGeradoraMin.ListaVertices[indexRemover].ListaAreaPequisa);
+                        // Juntar a Lista de Alunos
+                        _arvoreGeradoraMin.ListaVertices[indexRemover + 1].ListaAlunos.AddRange(_arvoreGeradoraMin.ListaVertices[indexRemover].ListaAlunos);
                         // Remover o Vertice, apos juntar todas as informações
                         _arvoreGeradoraMin.ListaVertices.Remove(verticeRemovivel);
                     }
+
                     // Caso o Index seja igual 0, irei unir as informações ao vertice de baixo ao que foi encontrado, que será removido
                     else
                     {
                         // Somar o Peso da proximo Aresta com o peso da Aresta que será removido
                         _arvoreGeradoraMin.ListaVertices[indexRemover + 1].ListaArestas[0].Peso = _arvoreGeradoraMin.ListaVertices[indexRemover + 1].ListaArestas[0].Peso + verticeRemovivel.ListaArestas[0].Peso;
                         // Juntar a Lista de Areas de Pesquisa
-                        _arvoreGeradoraMin.ListaVertices[indexRemover + 1].ListaAreaPequisa.Concat(_arvoreGeradoraMin.ListaVertices[indexRemover].ListaAreaPequisa);
+                        _arvoreGeradoraMin.ListaVertices[indexRemover + 1].ListaAreaPequisa.AddRange(_arvoreGeradoraMin.ListaVertices[indexRemover].ListaAreaPequisa);
                         // Juntar a Lista de Alunos
-                        _arvoreGeradoraMin.ListaVertices[indexRemover + 1].ListaAlunos.Concat(_arvoreGeradoraMin.ListaVertices[indexRemover].ListaAlunos);
-
+                        _arvoreGeradoraMin.ListaVertices[indexRemover + 1].ListaAlunos.AddRange(_arvoreGeradoraMin.ListaVertices[indexRemover].ListaAlunos);
                         // Remover o Vertice, apos juntar todas as informações
                         _arvoreGeradoraMin.ListaVertices.Remove(verticeRemovivel);
                     }
-                    Console.Write("----------------------------------\n");
+
                     _arvoreGeradoraMin.ListaVertices.ForEach((vertice) =>
                     {
                         Console.Write("( ");
                         vertice.ListaAreaPequisa.ForEach((valor) =>
                         {
-                            Console.Write("{0}-", valor);
+                            Console.Write("{0} ", valor);
                         });
                         Console.Write(" ) = Informações:\n");
 
@@ -249,13 +248,12 @@ namespace TIGrafos
                             Console.Write("\n         Area de Pesquisa:");
                             vertice.ListaAlunos.ForEach((aluno) =>
                             {
-                                Console.Write("\t{0}\n", aluno.AreaPesquisa);
+                                Console.Write("\t{0}", aluno.AreaPesquisa);
                             });
                         }
-
                     });
-
-                    Console.Write("Digite algo para continuar");
+                    Console.WriteLine("\n--------------------------------------------------");
+                    Console.WriteLine("Digite algo para continuar");
                     Console.ReadKey();
                 }
                 return _arvoreGeradoraMin;
@@ -267,9 +265,3 @@ namespace TIGrafos
         }
     }
 }
-
-
-
-// Console.WriteLine(primeiroVertice.ListaArestas.Count);
-// Console.WriteLine("---------");
-// Console.WriteLine(segundoVertice.ListaArestas.Count);

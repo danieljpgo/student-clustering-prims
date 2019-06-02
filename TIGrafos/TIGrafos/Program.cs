@@ -49,20 +49,18 @@ namespace TIGrafos
                     Console.Write("\n         Area de Pesquisa:");
                     vertice.ListaAlunos.ForEach((aluno) =>
                     {
-                        Console.Write("\t{0}\n", aluno.AreaPesquisa);
+                        Console.Write("\t{0}", aluno.AreaPesquisa);
                     });
                 }
               
             });
-
-            Console.Write("Qual será o numero de grupos?\n");
+            Console.WriteLine("\n--------------------------------------------------");
+            Console.Write("Qual será o numero de grupos:");
             int value = int.Parse(Console.ReadLine());
             Grafo geracaoCluster = Grafo.GeracaoCluster(value, arvoreGeradoraMinima);
+
+            Console.Write("Fim");
             Console.ReadKey();
-
-
-
-
         }
     }
 }
